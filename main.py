@@ -53,7 +53,7 @@ HTML = """
       const formData = new FormData();
       formData.append('file', selectedFile);
       document.getElementById('uploadBtn').disabled = true;
-      document.getElementById('status').textContent = '⏳ Processing video... this may take a minute.';
+      document.getElementById('status').textContent = '⏳ Processing video... this may take a few minutes for large files.';
       document.getElementById('result').style.display = 'none';
       document.getElementById('download').style.display = 'none';
       try {
@@ -101,7 +101,10 @@ async def transcribe(file: UploadFile = File(...)):
             audio_path = os.path.join(tmpdir, "audio.mp3")
             subprocess.run([
                 "ffmpeg", "-i", video_path,
-                "-q:a", "0", "-map", "a",
+                "-map", "a",
+                "-ar", "16000",
+                "-ac", "1",
+                "-b:a", "32k",
                 audio_path, "-y"
             ], check=True, capture_output=True)
 
