@@ -1,8 +1,10 @@
 import os
 import tempfile
 import subprocess
+import requests
 from fastapi import FastAPI, UploadFile, File
 from fastapi.responses import HTMLResponse, JSONResponse
+from pydantic import BaseModel
 from openai import OpenAI
 
 app = FastAPI()
@@ -22,13 +24,13 @@ HTML = """
     button { margin-top: 20px; padding: 12px 30px; background: #4f46e5; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; }
     button:disabled { background: #aaa; cursor: not-allowed; }
     #status { margin-top: 16px; color: #555; font-style: italic; }
-    #result { margin-top: 24px; background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 20px; white-space: pre-wrap; display: none; }
+    #result { margin-top: 24px; background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 20px; white-space: pre-wrap; display: none; font-family: monospace; font-size: 14px; line-height: 1.8; }
     #download { display: none; margin-top: 12px; background: #10b981; }
   </style>
 </head>
 <body>
   <h1>🎬 Video Transcriber</h1>
-  <p>Upload a video and get an AI-powered transcript instantly.</p>
+  <p>Upload a video and get an AI-powered transcript with timestamps instantly.</p>
   <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
     <input type="file" id="fileInput" accept="video/*" />
     <p>📁 Drag & drop your video here, or <strong>click to browse</strong></p>
@@ -85,6 +87,40 @@ HTML = """
 </html>
 """
 
+class VideoURL(BaseModel):
+    url: str
+
+def format_timestamp(seconds: float) -> str:
+    minutes = int(seconds // 60)
+    secs = int(seconds % 60)
+    return f"[{minutes:02d}:{secs:02d}]"
+
+def transcribe_audio(audio_path: str) -> str:
+    with open(audio_path, "rb") as audio_file:
+        response = client.audio.transcriptions.create(
+            model="whisper-1",
+            file=audio_file,
+            response_format="verbose_json",
+            timestamp_granularities=["segment"]
+        )
+    lines = []
+    for segment in response.segments:
+        timestamp = format_timestamp(segment.start)
+        lines.append(f"{timestamp} {segment.text.strip()}")
+    return "\n".join(lines)
+
+def extract_audio(video_path: str, tmpdir: str) -> str:
+    audio_path = os.path.join(tmpdir, "audio.mp3")
+    subprocess.run([
+        "ffmpeg", "-i", video_path,
+        "-map", "a",
+        "-ar", "16000",
+        "-ac", "1",
+        "-b:a", "32k",
+        audio_path, "-y"
+    ], check=True, capture_output=True)
+    return audio_path
+
 @app.get("/", response_class=HTMLResponse)
 async def home():
     return HTML
@@ -97,26 +133,26 @@ async def transcribe(file: UploadFile = File(...)):
             with open(video_path, "wb") as f:
                 content = await file.read()
                 f.write(content)
-
-            audio_path = os.path.join(tmpdir, "audio.mp3")
-            subprocess.run([
-                "ffmpeg", "-i", video_path,
-                "-map", "a",
-                "-ar", "16000",
-                "-ac", "1",
-                "-b:a", "32k",
-                audio_path, "-y"
-            ], check=True, capture_output=True)
-
-            with open(audio_path, "rb") as audio_file:
-                transcript = client.audio.transcriptions.create(
-                    model="whisper-1",
-                    file=audio_file,
-                    response_format="text"
-                )
-
+            audio_path = extract_audio(video_path, tmpdir)
+            transcript = transcribe_audio(audio_path)
             return JSONResponse({"transcript": transcript})
+    except subprocess.CalledProcessError:
+        return JSONResponse({"error": "Failed to extract audio."}, status_code=400)
+    except Exception as e:
+        return JSONResponse({"error": str(e)}, status_code=500)
 
+@app.post("/transcribe-url")
+async def transcribe_url(body: VideoURL):
+    try:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            video_path = os.path.join(tmpdir, "video.mp4")
+            response = requests.get(body.url, stream=True, timeout=120)
+            with open(video_path, "wb") as f:
+                for chunk in response.iter_content(chunk_size=8192):
+                    f.write(chunk)
+            audio_path = extract_audio(video_path, tmpdir)
+            transcript = transcribe_audio(audio_path)
+            return JSONResponse({"transcript": transcript})
     except subprocess.CalledProcessError:
         return JSONResponse({"error": "Failed to extract audio."}, status_code=400)
     except Exception as e:
