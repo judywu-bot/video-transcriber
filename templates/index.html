@@ -1,0 +1,121 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2868
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fmodern\fcharset0 Courier;}
+{\colortbl;\red255\green255\blue255;\red14\green16\blue19;\red245\green245\blue245;\red215\green45\blue27;
+\red253\green154\blue15;\red89\green152\blue85;\red119\green61\blue243;\red20\green104\blue220;}
+{\*\expandedcolortbl;;\cssrgb\c6667\c7843\c9412;\cssrgb\c96863\c96863\c96863;\cssrgb\c88235\c26275\c13333;
+\cssrgb\c100000\c66667\c5098;\cssrgb\c41569\c65098\c40784;\cssrgb\c54510\c36078\c96471;\cssrgb\c7451\c49804\c89020;}
+\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\deftab720
+\pard\pardeftab720\partightenfactor0
+
+\f0\fs28 \cf2 \cb3 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 <!DOCTYPE html>\
+\pard\pardeftab720\partightenfactor0
+\cf4 \cb3 \strokec4 <html \cf5 \cb3 \strokec5 lang\cf4 \cb3 \strokec4 =\cf6 \cb3 \strokec6 "en"\cf4 \cb3 \strokec4 >\cf2 \cb3 \strokec2 \
+\cf4 \cb3 \strokec4 <head>\cf2 \cb3 \strokec2 \
+  \cf4 \cb3 \strokec4 <meta \cf5 \cb3 \strokec5 charset\cf4 \cb3 \strokec4 =\cf6 \cb3 \strokec6 "UTF-8"\cf4 \cb3 \strokec4  />\cf2 \cb3 \strokec2 \
+  \cf4 \cb3 \strokec4 <meta \cf5 \cb3 \strokec5 name\cf4 \cb3 \strokec4 =\cf6 \cb3 \strokec6 "viewport"\cf4 \cb3 \strokec4  \cf5 \cb3 \strokec5 content\cf4 \cb3 \strokec4 =\cf6 \cb3 \strokec6 "width=device-width, initial-scale=1.0"\cf4 \cb3 \strokec4 />\cf2 \cb3 \strokec2 \
+  \cf4 \cb3 \strokec4 <title>\cf2 \cb3 \strokec2 Video Transcriber\cf4 \cb3 \strokec4 </title>\cf2 \cb3 \strokec2 \
+  \cf4 \cb3 \strokec4 <style>\cf2 \cb3 \strokec2 \
+    body \{ font-family: Arial, sans-serif; max-width: \cf5 \cb3 \strokec5 700px\cf2 \cb3 \strokec2 ; margin: \cf5 \cb3 \strokec5 60px\cf2 \cb3 \strokec2  auto; padding: \cf5 \cb3 \strokec5 0\cf2 \cb3 \strokec2  \cf5 \cb3 \strokec5 20px\cf2 \cb3 \strokec2 ; background: \cf5 \cb3 \strokec5 #f9f9f9\cf2 \cb3 \strokec2 ; \}\
+    h1 \{ color: \cf5 \cb3 \strokec5 #333\cf2 \cb3 \strokec2 ; \}\
+    .drop-zone \{\
+      border: \cf5 \cb3 \strokec5 2px\cf2 \cb3 \strokec2  dashed \cf5 \cb3 \strokec5 #aaa\cf2 \cb3 \strokec2 ; border-radius: \cf5 \cb3 \strokec5 12px\cf2 \cb3 \strokec2 ; padding: \cf5 \cb3 \strokec5 40px\cf2 \cb3 \strokec2 ;\
+      text-align: center; cursor: pointer; background: \cf5 \cb3 \strokec5 #fff\cf2 \cb3 \strokec2 ;\
+      transition: background \cf5 \cb3 \strokec5 0.2s\cf2 \cb3 \strokec2 ;\
+    \}\
+    .drop-zone.hover \{ background: \cf5 \cb3 \strokec5 #eef\cf2 \cb3 \strokec2 ; border-color: \cf5 \cb3 \strokec5 #66f\cf2 \cb3 \strokec2 ; \}\
+    .drop-zone input \{ display: none; \}\
+    button \{\
+      margin-top: \cf5 \cb3 \strokec5 20px\cf2 \cb3 \strokec2 ; padding: \cf5 \cb3 \strokec5 12px\cf2 \cb3 \strokec2  \cf5 \cb3 \strokec5 30px\cf2 \cb3 \strokec2 ; background: \cf5 \cb3 \strokec5 #4f46e5\cf2 \cb3 \strokec2 ;\
+      color: white; border: none; border-radius: \cf5 \cb3 \strokec5 8px\cf2 \cb3 \strokec2 ; cursor: pointer; font-size: \cf5 \cb3 \strokec5 16px\cf2 \cb3 \strokec2 ;\
+    \}\
+    button:disabled \{ background: \cf5 \cb3 \strokec5 #aaa\cf2 \cb3 \strokec2 ; cursor: not-allowed; \}\
+    #status \{ margin-top: \cf5 \cb3 \strokec5 16px\cf2 \cb3 \strokec2 ; color: \cf5 \cb3 \strokec5 #555\cf2 \cb3 \strokec2 ; font-style: italic; \}\
+    #result \{\
+      margin-top: \cf5 \cb3 \strokec5 24px\cf2 \cb3 \strokec2 ; background: \cf5 \cb3 \strokec5 #fff\cf2 \cb3 \strokec2 ; border: \cf5 \cb3 \strokec5 1px\cf2 \cb3 \strokec2  solid \cf5 \cb3 \strokec5 #ddd\cf2 \cb3 \strokec2 ;\
+      border-radius: \cf5 \cb3 \strokec5 8px\cf2 \cb3 \strokec2 ; padding: \cf5 \cb3 \strokec5 20px\cf2 \cb3 \strokec2 ; white-space: pre-wrap;\
+      display: none;\
+    \}\
+    #download \{ display: none; margin-top: \cf5 \cb3 \strokec5 12px\cf2 \cb3 \strokec2 ; background: \cf5 \cb3 \strokec5 #10b981\cf2 \cb3 \strokec2 ; \}\
+  \cf4 \cb3 \strokec4 </style>\cf2 \cb3 \strokec2 \
+\cf4 \cb3 \strokec4 </head>\cf2 \cb3 \strokec2 \
+\cf4 \cb3 \strokec4 <body>\cf2 \cb3 \strokec2 \
+  \cf4 \cb3 \strokec4 <h1>\cf2 \cb3 \strokec2 \uc0\u55356 \u57260  Video Transcriber\cf4 \cb3 \strokec4 </h1>\cf2 \cb3 \strokec2 \
+  \cf4 \cb3 \strokec4 <p>\cf2 \cb3 \strokec2 Upload a video and get an AI-powered transcript instantly.\cf4 \cb3 \strokec4 </p>\cf2 \cb3 \strokec2 \
+\
+  \cf4 \cb3 \strokec4 <div \cf5 \cb3 \strokec5 class\cf4 \cb3 \strokec4 =\cf6 \cb3 \strokec6 "drop-zone"\cf4 \cb3 \strokec4  \cf5 \cb3 \strokec5 id\cf4 \cb3 \strokec4 =\cf6 \cb3 \strokec6 "dropZone"\cf4 \cb3 \strokec4  \cf5 \cb3 \strokec5 onclick\cf4 \cb3 \strokec4 =\cf6 \cb3 \strokec6 "document.getElementById('fileInput').click()"\cf4 \cb3 \strokec4 >\cf2 \cb3 \strokec2 \
+    \cf4 \cb3 \strokec4 <input \cf5 \cb3 \strokec5 type\cf4 \cb3 \strokec4 =\cf6 \cb3 \strokec6 "file"\cf4 \cb3 \strokec4  \cf5 \cb3 \strokec5 id\cf4 \cb3 \strokec4 =\cf6 \cb3 \strokec6 "fileInput"\cf4 \cb3 \strokec4  \cf5 \cb3 \strokec5 accept\cf4 \cb3 \strokec4 =\cf6 \cb3 \strokec6 "video/*"\cf4 \cb3 \strokec4  />\cf2 \cb3 \strokec2 \
+    \cf4 \cb3 \strokec4 <p>\cf2 \cb3 \strokec2 \uc0\u55357 \u56513  Drag & drop your video here, or \cf4 \cb3 \strokec4 <strong>\cf2 \cb3 \strokec2 click to browse\cf4 \cb3 \strokec4 </strong></p>\cf2 \cb3 \strokec2 \
+    \cf4 \cb3 \strokec4 <p \cf5 \cb3 \strokec5 id\cf4 \cb3 \strokec4 =\cf6 \cb3 \strokec6 "fileName"\cf4 \cb3 \strokec4  \cf5 \cb3 \strokec5 style\cf4 \cb3 \strokec4 =\cf6 \cb3 \strokec6 "color:#4f46e5; font-weight:bold;"\cf4 \cb3 \strokec4 ></p>\cf2 \cb3 \strokec2 \
+  \cf4 \cb3 \strokec4 </div>\cf2 \cb3 \strokec2 \
+\
+  \cf4 \cb3 \strokec4 <button \cf5 \cb3 \strokec5 id\cf4 \cb3 \strokec4 =\cf6 \cb3 \strokec6 "uploadBtn"\cf4 \cb3 \strokec4  \cf5 \cb3 \strokec5 onclick\cf4 \cb3 \strokec4 =\cf6 \cb3 \strokec6 "uploadFile()"\cf4 \cb3 \strokec4  \cf5 \cb3 \strokec5 disabled\cf4 \cb3 \strokec4 >\cf2 \cb3 \strokec2 Transcribe Video\cf4 \cb3 \strokec4 </button>\cf2 \cb3 \strokec2 \
+  \cf4 \cb3 \strokec4 <p \cf5 \cb3 \strokec5 id\cf4 \cb3 \strokec4 =\cf6 \cb3 \strokec6 "status"\cf4 \cb3 \strokec4 ></p>\cf2 \cb3 \strokec2 \
+  \cf4 \cb3 \strokec4 <div \cf5 \cb3 \strokec5 id\cf4 \cb3 \strokec4 =\cf6 \cb3 \strokec6 "result"\cf4 \cb3 \strokec4 ></div>\cf2 \cb3 \strokec2 \
+  \cf4 \cb3 \strokec4 <button \cf5 \cb3 \strokec5 id\cf4 \cb3 \strokec4 =\cf6 \cb3 \strokec6 "download"\cf4 \cb3 \strokec4  \cf5 \cb3 \strokec5 onclick\cf4 \cb3 \strokec4 =\cf6 \cb3 \strokec6 "downloadTranscript()"\cf4 \cb3 \strokec4 >\cf2 \cb3 \strokec2 \uc0\u11015 \u65039  Download Transcript\cf4 \cb3 \strokec4 </button>\cf2 \cb3 \strokec2 \
+\
+  \cf4 \cb3 \strokec4 <script>\cf2 \cb3 \strokec2 \
+    \cf7 \cb3 \strokec7 const\cf2 \cb3 \strokec2  fileInput = \cf5 \cb3 \strokec5 document\cf2 \cb3 \strokec2 .getElementById(\cf6 \cb3 \strokec6 'fileInput'\cf2 \cb3 \strokec2 );\
+    \cf7 \cb3 \strokec7 const\cf2 \cb3 \strokec2  dropZone = \cf5 \cb3 \strokec5 document\cf2 \cb3 \strokec2 .getElementById(\cf6 \cb3 \strokec6 'dropZone'\cf2 \cb3 \strokec2 );\
+    \cf7 \cb3 \strokec7 const\cf2 \cb3 \strokec2  uploadBtn = \cf5 \cb3 \strokec5 document\cf2 \cb3 \strokec2 .getElementById(\cf6 \cb3 \strokec6 'uploadBtn'\cf2 \cb3 \strokec2 );\
+    \cf7 \cb3 \strokec7 let\cf2 \cb3 \strokec2  selectedFile = \cf5 \cb3 \strokec5 null\cf2 \cb3 \strokec2 ;\
+\
+    fileInput.addEventListener(\cf6 \cb3 \strokec6 'change'\cf2 \cb3 \strokec2 , \cf8 \cb3 \strokec8 (\cf2 \cb3 \strokec2 e\cf8 \cb3 \strokec8 ) =>\cf2 \cb3 \strokec2  \{\
+      selectedFile = e.target.files[\cf5 \cb3 \strokec5 0\cf2 \cb3 \strokec2 ];\
+      \cf7 \cb3 \strokec7 if\cf2 \cb3 \strokec2  (selectedFile) \{\
+        \cf5 \cb3 \strokec5 document\cf2 \cb3 \strokec2 .getElementById(\cf6 \cb3 \strokec6 'fileName'\cf2 \cb3 \strokec2 ).textContent = \cf6 \cb3 \strokec6 `Selected: $\{selectedFile.name\}`\cf2 \cb3 \strokec2 ;\
+        uploadBtn.disabled = \cf5 \cb3 \strokec5 false\cf2 \cb3 \strokec2 ;\
+      \}\
+    \});\
+\
+    dropZone.addEventListener(\cf6 \cb3 \strokec6 'dragover'\cf2 \cb3 \strokec2 , \cf8 \cb3 \strokec8 (\cf2 \cb3 \strokec2 e\cf8 \cb3 \strokec8 ) =>\cf2 \cb3 \strokec2  \{ e.preventDefault(); dropZone.classList.add(\cf6 \cb3 \strokec6 'hover'\cf2 \cb3 \strokec2 ); \});\
+    dropZone.addEventListener(\cf6 \cb3 \strokec6 'dragleave'\cf2 \cb3 \strokec2 , \cf8 \cb3 \strokec8 () =>\cf2 \cb3 \strokec2  dropZone.classList.remove(\cf6 \cb3 \strokec6 'hover'\cf2 \cb3 \strokec2 ));\
+    dropZone.addEventListener(\cf6 \cb3 \strokec6 'drop'\cf2 \cb3 \strokec2 , \cf8 \cb3 \strokec8 (\cf2 \cb3 \strokec2 e\cf8 \cb3 \strokec8 ) =>\cf2 \cb3 \strokec2  \{\
+      e.preventDefault();\
+      dropZone.classList.remove(\cf6 \cb3 \strokec6 'hover'\cf2 \cb3 \strokec2 );\
+      selectedFile = e.dataTransfer.files[\cf5 \cb3 \strokec5 0\cf2 \cb3 \strokec2 ];\
+      \cf5 \cb3 \strokec5 document\cf2 \cb3 \strokec2 .getElementById(\cf6 \cb3 \strokec6 'fileName'\cf2 \cb3 \strokec2 ).textContent = \cf6 \cb3 \strokec6 `Selected: $\{selectedFile.name\}`\cf2 \cb3 \strokec2 ;\
+      uploadBtn.disabled = \cf5 \cb3 \strokec5 false\cf2 \cb3 \strokec2 ;\
+    \});\
+\
+    \cf7 \cb3 \strokec7 async\cf2 \cb3 \strokec2  \cf7 \cb3 \strokec7 function\cf8 \cb3 \strokec8  uploadFile() \cf2 \cb3 \strokec2 \{\
+      \cf7 \cb3 \strokec7 if\cf2 \cb3 \strokec2  (!selectedFile) \cf7 \cb3 \strokec7 return\cf2 \cb3 \strokec2 ;\
+      \cf7 \cb3 \strokec7 const\cf2 \cb3 \strokec2  formData = \cf7 \cb3 \strokec7 new\cf2 \cb3 \strokec2  FormData();\
+      formData.append(\cf6 \cb3 \strokec6 'file'\cf2 \cb3 \strokec2 , selectedFile);\
+\
+      uploadBtn.disabled = \cf5 \cb3 \strokec5 true\cf2 \cb3 \strokec2 ;\
+      \cf5 \cb3 \strokec5 document\cf2 \cb3 \strokec2 .getElementById(\cf6 \cb3 \strokec6 'status'\cf2 \cb3 \strokec2 ).textContent = \cf6 \cb3 \strokec6 '\uc0\u9203  Processing video... this may take a minute.'\cf2 \cb3 \strokec2 ;\
+      \cf5 \cb3 \strokec5 document\cf2 \cb3 \strokec2 .getElementById(\cf6 \cb3 \strokec6 'result'\cf2 \cb3 \strokec2 ).style.display = \cf6 \cb3 \strokec6 'none'\cf2 \cb3 \strokec2 ;\
+      \cf5 \cb3 \strokec5 document\cf2 \cb3 \strokec2 .getElementById(\cf6 \cb3 \strokec6 'download'\cf2 \cb3 \strokec2 ).style.display = \cf6 \cb3 \strokec6 'none'\cf2 \cb3 \strokec2 ;\
+\
+      \cf7 \cb3 \strokec7 try\cf2 \cb3 \strokec2  \{\
+        \cf7 \cb3 \strokec7 const\cf2 \cb3 \strokec2  res = \cf7 \cb3 \strokec7 await\cf2 \cb3 \strokec2  fetch(\cf6 \cb3 \strokec6 '/transcribe'\cf2 \cb3 \strokec2 , \{ \cf5 \cb3 \strokec5 method\cf2 \cb3 \strokec2 : \cf6 \cb3 \strokec6 'POST'\cf2 \cb3 \strokec2 , \cf5 \cb3 \strokec5 body\cf2 \cb3 \strokec2 : formData \});\
+        \cf7 \cb3 \strokec7 const\cf2 \cb3 \strokec2  data = \cf7 \cb3 \strokec7 await\cf2 \cb3 \strokec2  res.json();\
+\
+        \cf7 \cb3 \strokec7 if\cf2 \cb3 \strokec2  (data.transcript) \{\
+          \cf5 \cb3 \strokec5 document\cf2 \cb3 \strokec2 .getElementById(\cf6 \cb3 \strokec6 'result'\cf2 \cb3 \strokec2 ).textContent = data.transcript;\
+          \cf5 \cb3 \strokec5 document\cf2 \cb3 \strokec2 .getElementById(\cf6 \cb3 \strokec6 'result'\cf2 \cb3 \strokec2 ).style.display = \cf6 \cb3 \strokec6 'block'\cf2 \cb3 \strokec2 ;\
+          \cf5 \cb3 \strokec5 document\cf2 \cb3 \strokec2 .getElementById(\cf6 \cb3 \strokec6 'download'\cf2 \cb3 \strokec2 ).style.display = \cf6 \cb3 \strokec6 'inline-block'\cf2 \cb3 \strokec2 ;\
+          \cf5 \cb3 \strokec5 document\cf2 \cb3 \strokec2 .getElementById(\cf6 \cb3 \strokec6 'status'\cf2 \cb3 \strokec2 ).textContent = \cf6 \cb3 \strokec6 '\uc0\u9989  Transcription complete!'\cf2 \cb3 \strokec2 ;\
+        \} \cf7 \cb3 \strokec7 else\cf2 \cb3 \strokec2  \{\
+          \cf5 \cb3 \strokec5 document\cf2 \cb3 \strokec2 .getElementById(\cf6 \cb3 \strokec6 'status'\cf2 \cb3 \strokec2 ).textContent = \cf6 \cb3 \strokec6 `\uc0\u10060  Error: $\{data.error\}`\cf2 \cb3 \strokec2 ;\
+        \}\
+      \} \cf7 \cb3 \strokec7 catch\cf2 \cb3 \strokec2  (err) \{\
+        \cf5 \cb3 \strokec5 document\cf2 \cb3 \strokec2 .getElementById(\cf6 \cb3 \strokec6 'status'\cf2 \cb3 \strokec2 ).textContent = \cf6 \cb3 \strokec6 `\uc0\u10060  Unexpected error: $\{err.message\}`\cf2 \cb3 \strokec2 ;\
+      \}\
+\
+      uploadBtn.disabled = \cf5 \cb3 \strokec5 false\cf2 \cb3 \strokec2 ;\
+    \}\
+\
+    \cf7 \cb3 \strokec7 function\cf8 \cb3 \strokec8  downloadTranscript() \cf2 \cb3 \strokec2 \{\
+      \cf7 \cb3 \strokec7 const\cf2 \cb3 \strokec2  text = \cf5 \cb3 \strokec5 document\cf2 \cb3 \strokec2 .getElementById(\cf6 \cb3 \strokec6 'result'\cf2 \cb3 \strokec2 ).textContent;\
+      \cf7 \cb3 \strokec7 const\cf2 \cb3 \strokec2  blob = \cf7 \cb3 \strokec7 new\cf2 \cb3 \strokec2  Blob([text], \{ \cf5 \cb3 \strokec5 type\cf2 \cb3 \strokec2 : \cf6 \cb3 \strokec6 'text/plain'\cf2 \cb3 \strokec2  \});\
+      \cf7 \cb3 \strokec7 const\cf2 \cb3 \strokec2  a = \cf5 \cb3 \strokec5 document\cf2 \cb3 \strokec2 .createElement(\cf6 \cb3 \strokec6 'a'\cf2 \cb3 \strokec2 );\
+      a.href = URL.createObjectURL(blob);\
+      a.download = \cf6 \cb3 \strokec6 'transcript.txt'\cf2 \cb3 \strokec2 ;\
+      a.click();\
+    \}\
+  \cf4 \cb3 \strokec4 </script>\cf2 \cb3 \strokec2 \
+\cf4 \cb3 \strokec4 </body>\cf2 \cb3 \strokec2 \
+\cf4 \cb3 \strokec4 </html>}
