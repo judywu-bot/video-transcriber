@@ -1,4 +1,5 @@
 import os
+import re
 import tempfile
 import subprocess
 import requests
@@ -90,6 +91,14 @@ HTML = """
 class VideoURL(BaseModel):
     url: str
 
+def resolve_google_drive_url(url: str) -> str:
+    """Convert Google Drive sharing link to direct download link."""
+    match = re.search(r"/file/d/([a-zA-Z0-9_-]+)", url)
+    if match:
+        file_id = match.group(1)
+        return f"https://drive.google.com/uc?export=download&confirm=t&id={file_id}"
+    return url
+
 def format_timestamp(seconds: float) -> str:
     minutes = int(seconds // 60)
     secs = int(seconds % 60)
@@ -144,9 +153,15 @@ async def transcribe(file: UploadFile = File(...)):
 @app.post("/transcribe-url")
 async def transcribe_url(body: VideoURL):
     try:
+        url = body.url
+        # Auto-convert Google Drive sharing links
+        if "drive.google.com" in url:
+            url = resolve_google_drive_url(url)
+
         with tempfile.TemporaryDirectory() as tmpdir:
             video_path = os.path.join(tmpdir, "video.mp4")
-            response = requests.get(body.url, stream=True, timeout=120)
+            session = requests.Session()
+            response = session.get(url, stream=True, timeout=120)
             with open(video_path, "wb") as f:
                 for chunk in response.iter_content(chunk_size=8192):
                     f.write(chunk)
