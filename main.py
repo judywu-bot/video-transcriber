@@ -7,7 +7,9 @@ from fastapi.templating import Jinja2Templates
 from openai import OpenAI
 
 app = FastAPI()
-templates = Jinja2Templates(directory="templates")
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+templates = Jinja2Templates(directory=os.path.join(BASE_DIR, "templates"))
 
 client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
 
